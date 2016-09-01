@@ -151,7 +151,7 @@
 	                        <h4 id="heading">{{ $tutorial->title}} <br> <small>{{$tutorial->teacher}}</small></h4>
 	                         <h4 id="fee">Rs. {{$tutorial->fee}}</h4>
 	                        <p>{{$tutorial->description}}</p>
-	                        <button class="btn btn-danger">Enroll Now</button>
+	                        <a type="button" href="{{route('enrol',['title'=>$tutorial->title,'teacher'=>$tutorial->teacher,'fee'=>$tutorial->fee])}}" class="btn btn-danger">Enroll Now</a>
 
 	                	</div>
 	                </div>
@@ -264,4 +264,33 @@
         </div>
 
        
+			
+
+	
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @endsection
