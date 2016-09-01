@@ -20,7 +20,8 @@ class AddTutorialsTable extends Migration
             'fee' => '800' ,
             'description' => 'JavaScript for Beginners: Learn JavaScript the programming language through whiteboard videos and hands on practice.' ,
             'created_at'=>date('Y:m:d H:m:s'),
-            'updated_at'=>date('Y:m:d H:m:s')
+            'updated_at'=>date('Y:m:d H:m:s'),
+			"language"=>"English"
             ));
 
         DB::table('tutorials')->insert(array(
@@ -31,7 +32,7 @@ class AddTutorialsTable extends Migration
             'fee' => '600' ,
             'description' => 'JavaScript for Beginners: Learn JavaScript the programming language through whiteboard videos and hands on practice.' ,
             'created_at'=>date('Y:m:d H:m:s'),
-            'updated_at'=>date('Y:m:d H:m:s')
+            'updated_at'=>date('Y:m:d H:m:s'),"language"=>"English"
             ));
 
         DB::table('tutorials')->insert(array(
@@ -42,7 +43,7 @@ class AddTutorialsTable extends Migration
             'fee' => '900' ,
             'description' => 'JavaScript for Beginners: Learn JavaScript the programming language through whiteboard videos and hands on practice.' ,
             'created_at'=>date('Y:m:d H:m:s'),
-            'updated_at'=>date('Y:m:d H:m:s')
+            'updated_at'=>date('Y:m:d H:m:s'),"language"=>"English"
             ));
 
         DB::table('tutorials')->insert(array(
@@ -53,7 +54,7 @@ class AddTutorialsTable extends Migration
             'fee' => '600' ,
             'description' => 'JavaScript for Beginners: Learn JavaScript the programming language through whiteboard videos and hands on practice.' ,
             'created_at'=>date('Y:m:d H:m:s'),
-            'updated_at'=>date('Y:m:d H:m:s')
+            'updated_at'=>date('Y:m:d H:m:s'),"language"=>"English"
             ));
     }
 
