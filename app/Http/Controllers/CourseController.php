@@ -3,22 +3,139 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Auth;use App\User;
 use App\Http\Requests;
 use Input;
-use Storage;
-use Auth;
-use App\User;
-use App\Role;
 use App\Tutorial;
-use App\Course;
-use App\UploadedFile;
 use Illuminate\Support\Facades\Session;
 use DB;
+use App\contact;
+use App\Course;
+use App\enrolcourse;
+
+use App\Category;
+use App\Subcategory;
+
 class CourseController extends Controller
 
 
 {
+	
+	
+	public function redtowelcome(Request $request){
+		
+	
+		$id=Auth::user()->id;
+		$contact=new contact();
+		$contact->telephone=$request->input("telephone");
+		$contact->mobile=$request->input("mobile");
+		$contact->user_id=$id;
+		$contact->address=$request->input("address");
+		
+		$contact->save();
+		return view("welcome");
+		
+		
+		
+	}
+	
+	
+	public function ajaxsearch(Request $request)
+	{
+		
+		$key=$request->input("key");
+		if($key==""||$key==" ")
+		{$count=0;
+	return response()->json(["count"=>$count]);}
+			
+		else{
+			
+			$str="";
+		$categories=Category::where("name","like","%".$key."%")->get();
+		
+		$cat=array();
+		
+		foreach($categories as $rr)
+		{$cat[]=$rr->id;
+		
+		$url=route('home');
+		$str.="<p style='color:red'><a href='".$url."'>".$rr->name."</a></p>";}
+		
+		
+		$subcats=Subcategory::where("name","like","%".$key."%")->whereNotIn("category_id",$cat)->get();
+		
+		$subcat=array();
+		
+		foreach($subcats as $rr)
+		{$subcat[]=$rr->id;
+		
+		
+		$url=route('home');
+		$str.="<p style='color:red'><a href='".$url."'>".$rr->name."</a></p>";}
+		
+		
+		
+		$courses=Course::where("name","like","%".$key."%")->whereNotIn("subcategory_id",$subcat)->get();
+		
+		$cours=array();
+		
+		foreach($courses as $rr)
+		{$cours[]=$rr->id;
+		
+		
+		$url=route('home');
+		$str.="<p style='color:red'><a href='".$url."'>".$rr->name."</a></p>";}
+		
+		$tutorials=Tutorial::where("title","like","%".$key."%")->whereNotIn("course_id",$cours)->get();
+		
+		
+	
+		
+		foreach($tutorials as $rr)
+		{
+		
+		
+		$url=route('home');
+		$str.="<p style='color:red'><a href='".$url."'>".$rr->name."</a></p>";}
+		
+		
+		
+		return response()->json(['text'=>$str,"count"=>2]);
+		
+		}
+		
+		
+		
+	}
+	
+	public function home(){
+		if(Auth::check())
+		{$id=Auth::user()->id;
+	
+		if(contact::where("user_id",$id)->count()==0)
+		return view("contacts");
+	
+	else return view("welcome");}
+		
+		else return view("welcome");
+		
+	}
+	
+	public function enrol($title,$teacher,$fee){
+		return view('enrol',['teacher'=>$teacher,'title'=>$title,'fee'=>$fee])->with('categories', \App\Category::all())
+    	->with('subcategories', \App\Subcategory::all())
+    	->with('courses', \App\Course::all())
+        ->with('tutorials', \App\Tutorial::all());
+    ;
+		
+    
+	}
+	public function payment(Request $request,$user)
+	{
+		
+		
+	}
+	
     public function open(){
     	
     	return view('course_display')
@@ -26,7 +143,6 @@ class CourseController extends Controller
     	->with('subcategories', \App\Subcategory::all())
     	->with('courses', \App\Course::all())
         ->with('tutorials', \App\Tutorial::all());
-        
     }
 
     public function view($id){
@@ -63,11 +179,23 @@ class CourseController extends Controller
 
 
     }
+public function profilecourses(){
+	
+	$id=Auth::user()->id;
+	$courses=enrolcourse::where("user_id",$id)->get();
+	
+	return view('profilecourses',['courses'=>$courses]);
+}
 
-
-    public function profile()
+    
+	
+	public function profile()
     {
-        return view('profile');
+		$id=Auth::user()->id;
+		$contacts=contact::where("id",$id)->get();
+		
+		
+        return view('profile',["contacts"=>$contacts]);
     }
 
 public function ajaxlevel(Request $request)
@@ -220,5 +348,6 @@ public function handleUpload($id, Request $request)
 	return redirect()->back();
 }
 
-}
 
+
+}
