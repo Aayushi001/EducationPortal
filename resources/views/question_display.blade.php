@@ -140,8 +140,15 @@ $("a.allreply").click(function(evt){
 						<script>
 						
 						$(document).ready(function(){
-							$(".sendreply").click(function(evt){ evt.preventDefault();
+							$(".sendreply").click(function(evt){ 
+							
+							
+	
+							evt.preventDefault();
 	var t=$(this).attr('rel');var repl=$('.replytxt'+t).val();var name='{{Auth::user()->name}}';
+	if(repl=="")
+		return false;
+	
 	$.ajax({
 		
 		
@@ -150,6 +157,7 @@ $("a.allreply").click(function(evt){
 		success:function(data){
 			
 	$(".id"+t).html(data);
+	$('.replytxt'+t).val("");
 		}
 		
 	});
@@ -197,7 +205,7 @@ $("a.allreply").click(function(evt){
 							<a href="" class="allreply" rel="{{$comment->id}}">Click here to see all the replies</a>
 							
 						<hr>
-						<div class="replybox{{$comment->id}}" id="#replybox{{$comment->id}}" style="display:none" >
+						<div class="replybox{{$comment->id}}" id="#replybox{{$comment->id}}" style="display:none;position:relative;bottom:30px" >
 						<label>Reply to the comment</label>
 						<textarea class="replytxt{{$comment->id}}" style="width:500px;height:50px;position:relative;top:20px" required></textarea>
 						<a href="" class="sendreply" rel="{{$comment->id}}">Reply to the comment</a>
