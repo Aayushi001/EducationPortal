@@ -140,27 +140,28 @@ $c=\App\comment::where("question_id",$id)->count();
 	public function ajaxreplies(Request $request)
 	{
 		
+	
 		$id=$request->input("id");
-		$c=\App\reply::where("comment_id",$id)->count();
+		$c=reply::where("question_comment_id",$id)->count();
 		if($c==0)
 			return response()->view("ajaxreplies",["count"=>0]);
 		
 		else {
 			
-			return response()->view("ajaxreplies",['replies'=>\App\reply::where('comment_id',$id)->get()]);
+			return response()->view("ajaxreplies",['replies'=>\App\reply::where('question_comment_id',$id)->get()]);
 			
 		}
+		
 		
 	}
 	public function ajaxsendreply(Request $request)
 	{
 
-		
-		$reply=$request->input("reply");
+			$reply=$request->input("reply");
 			$id=$request->input("id");	$user=$request->input("user");$userid=Auth::user()->id;
 			
 			$ne=new reply();
-			$ne->comment_id=$id;
+			$ne->question_comment_id=$id;
 			$ne->user=$user;
 			$ne->user_id=$userid;
 			$ne->reply=$reply;
@@ -169,7 +170,8 @@ $c=\App\comment::where("question_id",$id)->count();
 			
 		
 		
-		return response()->view("ajaxreplies",['replies'=>\App\reply::where('comment_id',$id)->get()]);
+		return response()->view("ajaxreplies",['replies'=>\App\reply::where('question_comment_id',$id)->get()]);
+		
 		
 	}
 	
