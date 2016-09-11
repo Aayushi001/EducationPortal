@@ -61,6 +61,41 @@ Route::post("/courses/all",array('as'=>'alltut', 'uses'=>'CourseController@ajaxa
         'roles' => ['Admin']
     ]);
 
+ Route::get('/admin/assign-roles', [
+        'uses' => 'CourseController@getAdminAssignRoles',
+        'as' => 'admin.assign',
+        'middleware' => 'roles',
+        'roles' => ['Admin']
+    ]);
+
+ Route::get('/admin/add', [
+        'uses' => 'CourseController@add',
+        'as' => 'admin.add',
+        'middleware' => 'roles',
+        'roles' => ['Admin']
+    ]);
+
+ Route::post('/admin/addCourse', [
+        'uses' => 'CourseController@postAddCourse',
+        'as' => 'admin.add.course',
+        'middleware' => 'roles',
+        'roles' => ['Admin']
+    ]);
+
+ Route::post('/admin/addSubcategory', [
+        'uses' => 'CourseController@postAddSubcategory',
+        'as' => 'admin.add.subcategory',
+        'middleware' => 'roles',
+        'roles' => ['Admin']
+    ]);
+
+  Route::post('/admin/addCategory', [
+        'uses' => 'CourseController@postAddCategory',
+        'as' => 'admin.add.category',
+        'middleware' => 'roles',
+        'roles' => ['Admin']
+    ]);
+
   Route::get('/teacher', [
         'uses' => 'CourseController@getTeacherPanel',
         'as' => 'teacher_panel',
@@ -76,9 +111,23 @@ Route::post("/courses/all",array('as'=>'alltut', 'uses'=>'CourseController@ajaxa
     ]);
 
 
-   Route::any('/handleUpload/{id}', [
+   Route::get('/handleUpload/{id}', [
+        'uses' => 'CourseController@getUploadPage',
+        'as' => 'handleUpload',
+        'middleware' => 'roles',
+        'roles' => ['Teacher', 'Admin']
+    ]);
+
+   Route::post('/handleUpload/{id}', [
         'uses' => 'CourseController@handleUpload',
         'as' => 'handleUpload',
+        'middleware' => 'roles',
+        'roles' => ['Teacher', 'Admin']
+    ]);
+
+    Route::get('/handleUpload/resources/uploads/{name}', [
+        'uses' => 'CourseController@handleUploadedFiles',
+        'as' => 'handleUploadedFiles',
         'middleware' => 'roles',
         'roles' => ['Teacher', 'Admin']
     ]);

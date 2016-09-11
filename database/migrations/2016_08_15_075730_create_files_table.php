@@ -18,6 +18,7 @@ class CreateFilesTable extends Migration
             $table->integer('user_id');
             $table->integer('tutorial_id');
             $table->text('description');
+             $table->timestamps();
         });
     }
 

@@ -34,7 +34,7 @@
 				    	<?php foreach($files as $file): ?>
 				    		<?php if($file->tutorial_id == $id): ?>
 					    		<tr>
-							        <td><?php echo e($file->file_name); ?></td>
+							        <td><a href="resources/uploads/<?php echo e($file->file_name); ?>"> <?php echo e($file->file_name); ?></a></td>
 							        <td><?php echo e($file->description); ?></td>
 							        <td><button>DELETE <i class="fa fa-remove"></i></button></td>
 					      		</tr>

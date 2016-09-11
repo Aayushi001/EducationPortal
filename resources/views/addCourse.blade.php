@@ -31,7 +31,7 @@
 				    	@foreach($files as $file)
 				    		@if($file->tutorial_id == $id)
 					    		<tr>
-							        <td>{{$file->file_name}}</td>
+							        <td><a href="resources/uploads/{{$file->file_name}}"> {{$file->file_name}}</a></td>
 							        <td>{{$file->description}}</td>
 							        <td><button>DELETE <i class="fa fa-remove"></i></button></td>
 					      		</tr>

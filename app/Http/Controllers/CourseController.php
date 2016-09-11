@@ -12,9 +12,13 @@ use App\User;
 use App\Role;
 use App\Tutorial;
 use App\Course;
+use App\Subcategory;
+use App\Category;
 use App\UploadedFile;
 use Illuminate\Support\Facades\Session;
 use DB;
+use Response;
+
 class CourseController extends Controller
 
 
@@ -137,12 +141,64 @@ public function getAdmin()
 {
 	
 	return view('admin_panel')
-	->with('users', \App\User::all());
+	->with('users', \App\User::all())
+	->with('usersCount', \App\User::count());
+}
+
+public function add()
+{
+	return view('adminAdd')
+	->with('subcategories', \App\Subcategory::all())
+	->with('categories', \App\Category::all());
+}
+
+public function postAddCourse(Request $request)
+{
+	    $course = new Course;
+        $course->name = $request->input('name');
+       
+        $subcatName = Input::get('subcategory');
+        $subcat = Subcategory::where('name', '=', $subcatName)->first();
+        $course->subcategory_id = $subcat->id;
+    
+        $course->save();
+        $request->session()->flash("message","COURSE HAS BEEN SUCESSFULLY ADDED");
+		return redirect()->back();
+}
+
+public function postAddSubcategory(Request $request)
+{
+	    $subcategory = new Subcategory;
+        $subcategory->name = $request->input('name');
+       
+        $catName = Input::get('category');
+        $cat = Category::where('name', '=', $catName)->first();
+        $subcategory->category_id = $cat->id;
+    
+        $subcategory->save();
+        $request->session()->flash("message","COURSE HAS BEEN SUCESSFULLY ADDED");
+		return redirect()->back();
+}
+
+public function postAddCategory(Request $request)
+{
+	    $category = new Category;
+        $category->name = $request->input('name');   
+        $category->save();
+        $request->session()->flash("message","COURSE HAS BEEN SUCESSFULLY ADDED");
+			return redirect()->back();
+}
+
+public function getAdminAssignRoles()
+{
+	return view('admin_assignRoles')
+		->with('users', \App\User::all());
+
 }
 
 public function postAdminAssignRoles(Request $request)
 {
-
+		
         $user = User::where('email', $request['email'])->first();
         $user->roles()->detach();
         if ($request['role_user']) {
@@ -156,6 +212,7 @@ public function postAdminAssignRoles(Request $request)
         }
         return redirect()->back();
 }
+
 
 public function getTeacherPanel()
 {
@@ -185,11 +242,16 @@ public function addTutorial(Request $request)
 
 }
 
-public function handleUpload($id, Request $request)
+public function getUploadPage($id)
 {
 	return view('addCourse')
 	->with('id', $id)
 	->with('files', UploadedFile::all());
+}
+
+public function handleUpload($id, Request $request)
+{
+	
 	if($request->hasFile('file'))
 	{
 		$user = Auth::user(); 
@@ -209,7 +271,7 @@ public function handleUpload($id, Request $request)
 			$file = new UploadedFile;
 			$file->file_name = $fileName;
 			$file->user_id = $user->id;
-			$file->tutorial->id = $id;
+			$file->tutorial_id = $id;
 			$file->description = Input::get('description');
 			$file->save();
 			$request->session()->flash("message","YOUR FILE HAS BEEN UPLOADED SUCCESSFULLY");
@@ -219,6 +281,18 @@ public function handleUpload($id, Request $request)
 
 	return redirect()->back();
 }
+
+public function handleUploadedFiles($name)
+{
+	
+	$path = config('app.fileDestinationPath').'/'.$name;
+
+	return Response::make(file_get_contents($path), 200, [
+    'Content-Type' => 'application/pdf',
+    'Content-Disposition' => 'inline; filename="'.$name.'"'
+]);
+}
+
 
 }
 
