@@ -2,6 +2,13 @@
 @section("content")
 
  <div class="container" style="margin-top: 100px;">
+ 
+ @if(Session::has("message"))
+ <div class="alert alert-success row">
+    <strong>SUCCESS</strong> {{Session::get("message")}}
+  </div>
+  @endif
+  
 	<div class="row">
 		<div class="col-md-8">
 			<form action="{{route('store')}}" method="POST">
@@ -45,10 +52,6 @@
 
 			</div>
 		</div>
-
-		@if(Session::has('message'))
-<p class="alert">{{ Session::get('message') }}</p>
-@endif
 					
 	</div>
 	</div>	

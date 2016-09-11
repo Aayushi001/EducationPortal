@@ -20,10 +20,6 @@
 	</div>
 </div>
 
-<h3>@foreach($users as $user)
-    {{$user->roles}}
-    @endforeach</h3>
-
 <div class="container">
 	<input type="text" placeholder=" What are you looking for? " class="search-questions">
 </div>

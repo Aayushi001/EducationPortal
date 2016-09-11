@@ -5,6 +5,10 @@
 <script>
 $(document).ready(function(){
 	
+	
+	
+	
+	
 $(".search").click(function(){
 		
 		$(".icon").hide();
@@ -21,6 +25,28 @@ $(".search").click(function(){
 		$(".search").attr("placeholder",u);}}
 	
 	});
+	$(".search").keyup(function(){
+		
+		var value=$(this).val();
+		if(value!=""||value!=" ")
+			$('.alternate').hide();
+		else $('.alternate').show(); 
+				$.ajax({
+	
+	type:"POST",url:"{{route('ajaxsearch')}}",
+	data:{key:value},
+	success:function(data){
+		if(data['count']!=0)
+		$(".suggest").show().html(data['text']);
+	else{$(".suggest").hide();}
+	}
+	
+});
+
+
+		
+		
+	});
 });
 </script>
 
@@ -32,15 +58,17 @@ $(".search").click(function(){
                 <hr> 
                 <div class="input-append">
                     <span>
-					<span class='fa fa-search icon' style="font-size:26px;color:black;position:absolute;left:223px;top:110px"></span>
-                         <input type="text"  class="search" placeholder="Search For Courses">
-                     
-                         <button class="btn-danger btn-lg search_btn">Search</button>
+					<span class='fa fa-search icon' style="font-size:25px;color:black;left:140px;position:absolute;top:115px"></span>
+                         <input type="text"  class="search" style="font-size:25px" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search For Courses"><button class="btn-danger btn-lg search_btn">Search</button>
+                     <div class="suggest" style="position:relative;z-index:10;width:200px;background-color:white;left:250px"></div>
+				
+                         
                     </span>
                 </div>
+				<div class="alternate">
                 <h2>OR</h2>
                 <h3><a href="{{ url('/browse') }}" style="color:#f05f40; font-weight: bolder; ">Browse the courses</a></h3>
-
+</div>
             </div>
             </div>
            
@@ -48,7 +76,7 @@ $(".search").click(function(){
 </header>
 
 
-<section id="why">
+<section id="services">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -61,7 +89,7 @@ $(".search").click(function(){
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 text-center">
                     <div class="service-box">
-                        <img src="images/student2.jpe">
+                        <img src="public/images/student2.jpe">
                         <h3>Characteristics</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                         tempor incididunt ut labore et </p>
@@ -69,7 +97,7 @@ $(".search").click(function(){
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 text-center">
                     <div class="service-box">
-                         <img src="images/student2.jpe">
+                         <img src="public/images/student2.jpe">
                         <h3>Characteristics</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                         tempor incididunt ut labore et </p>
@@ -77,7 +105,7 @@ $(".search").click(function(){
                 </div>
                 <div class="col-lg-4 col-lg-offset-0 col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3 text-center">
                     <div class="service-box">
-                         <img src="images/student2.jpe">
+                         <img src="public/images/student2.jpe">
                         <h3>Characteristics</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                         tempor incididunt ut labore et </p>
@@ -104,7 +132,7 @@ $(".search").click(function(){
                 <a href="#">
                     <div class="col-lg-3 col-md-3 col-sm-4  col-xs-6  text-center">
                         <div class="service-box panel">
-                            <img src="images/project.jpg" >
+                            <img src="public/images/project.jpg" >
                             <h3>Title</h3>
                             <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                             tempor incididunt ut labore et </p>
@@ -115,7 +143,7 @@ $(".search").click(function(){
                <a href="#">
                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 text-center">
                     <div class="service-box panel">
-                        <img src="images/js.png">
+                        <img src="public/images/js.png">
                         <h3>Title</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                         tempor incididunt ut labore et </p>
@@ -126,7 +154,7 @@ $(".search").click(function(){
                <a href="#">
                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 text-center">
                         <div class="service-box panel">
-                            <img src="images/project.jpg">
+                            <img src="public/images/project.jpg">
                             <h3>Title</h3>
                             <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                             tempor incididunt ut labore et </p>
@@ -137,7 +165,7 @@ $(".search").click(function(){
                  <a href="#">
                    <div class=" col-lg-3 col-md-3 col-sm-4 col-xs-6 text-center">
                     <div class="service-box panel">
-                        <img src="images/js.png">
+                        <img src="public/images/js.png">
                         <h3>Title</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                         tempor incididunt ut labore et </p>
@@ -169,7 +197,7 @@ $(".search").click(function(){
                 <a href="#">
                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 text-center">
                         <div class="service-box panel">
-                            <img src="images/project.jpg" >
+                            <img src="public/images/project.jpg" >
                             <h3>Title</h3>
                             <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                             tempor incididunt ut labore et </p>
@@ -180,7 +208,7 @@ $(".search").click(function(){
                <a href="#">
                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 text-center">
                     <div class="service-box panel">
-                        <img src="images/js.png">
+                        <img src="public/images/js.png">
                         <h3>Title</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                         tempor incididunt ut labore et </p>
@@ -191,7 +219,7 @@ $(".search").click(function(){
                <a href="#">
                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 text-center">
                         <div class="service-box panel">
-                            <img src="images/project.jpg">
+                            <img src="public/images/project.jpg">
                             <h3>Title</h3>
                             <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                             tempor incididunt ut labore et </p>
@@ -202,7 +230,7 @@ $(".search").click(function(){
                  <a href="#">
                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 text-center">
                     <div class="service-box panel">
-                        <img src="images/js.png">
+                        <img src="public/images/js.png">
                         <h3>Title</h3>
                         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                         tempor incididunt ut labore et </p>
@@ -268,4 +296,3 @@ $(".search").click(function(){
 
 
 @endsection
-

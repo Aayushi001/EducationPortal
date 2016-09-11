@@ -31,7 +31,7 @@
 	    		@foreach($questions as $question)
 
 	    		<tr>
-	        	<td style="padding-right:20px;"> <h4>{!! link_to_route('question.view', $question->description, [$question->id]) !!}<br>
+	        	<td style="padding-right:20px;"> <h4><a href="{{route('question.view',['id'=>$question->id])}}">{{$question->title}}</a><br>
 	        	<small> asked {{ $question->created_at->diffForHumans()}}
 	        	</small></h4><br>
 	        	<p style="color: #f05f40; font-weight: bold;">

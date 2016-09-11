@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFilesTable extends Migration
+class CreateRepliesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,12 @@ class CreateFilesTable extends Migration
      */
     public function up()
     {
-          Schema::create('files', function (Blueprint $table) {
-            $table->increments('id')->unique();
-            $table->string('file_name')->unique();
-            $table->integer('user_id');
-            $table->integer('tutorial_id');
-            $table->text('description');
+        Schema::create('replies', function (Blueprint $table) {
+            $table->increments('id');
             $table->timestamps();
+			$table->integer("question_comment_id");
+			$table->string("reply");
+			$table->string("user");
         });
     }
 
@@ -29,6 +28,6 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('files');
+        Schema::drop('replies');
     }
 }

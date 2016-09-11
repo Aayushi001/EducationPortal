@@ -23,31 +23,53 @@
 */
 
 Route::group(['middleware' => ['web']], function () {
-    Route::get('/', function () {
-        return view('welcome');
-    });
+
+    Route::get('/',array('as'=>'home',"uses"=>"CourseController@home"));
+
     Route::get('/home', function () {
         return view('home');
     })->name("home")->middleware('auth');
+
     Route::get('/browse', array('as'=>'browse', 'uses'=> 'CourseController@open'));
+
     Route::auth();
+
     Route::get('/course/{id}', array('as'=>'course', 'uses'=>'CourseController@view'));
-    Route::get('/profile', array('as'=>'profile', 'uses'=>'CourseController@profile'));
+
+    Route::get('/profile', array('as'=>'profile', 'uses'=>'CourseController@profile'))->middleware('auth');
+
     Route::get('/discussion', array('as'=>'discussion', 'middleware' => 'auth', 'uses'=>'DiscussionController@open'));
+
     Route::get('/discussion-forum/ask-question', array('as'=>'ask-question', 'middleware' => 'auth', 'uses'=>'DiscussionController@ask'));
+
     Route::get('/discussion-forum/questions', array('as'=>'questions', 'middleware' => 'auth', 'uses'=>'DiscussionController@viewlist'));
+
     Route::any('/discussion-forum/question/{id}', array('as'=>'question.view', 'uses'=>'DiscussionController@viewquestion'));
-Route::post("/discussion-forum/question/ajaxlike", array('as'=>'ajaxlike', 'uses'=>'DiscussionController@ajaxlike'));
-Route::post("/discussion-forum/question/ajaxcomment", array('as'=>'ajaxcomment', 'uses'=>'DiscussionController@ajaxcomment'));
+
+Route::post("/question/like", array('as'=>'ajaxlike', 'uses'=>'DiscussionController@ajaxlike'));
+
+Route::post("/question/comment/", array('as'=>'ajaxcomment', 'uses'=>'DiscussionController@ajaxcomment'));
     Route::post('/discussion-forum/store', array('as'=>'store', 'uses'=>'DiscussionController@store'));
 Route::post('/courses/level',array('as'=>'level', 'uses'=>'CourseController@ajaxlevel'));
 Route::post("/courses/language",array('as'=>'language', 'uses'=>'CourseController@ajaxlanguage'));
+Route::get("/enrol/{title}/{teacher}/{fee}",array('as'=>'enrol', 'uses'=>'CourseController@enrol'))->middleware('auth');
 Route::post("/courses/price",array('as'=>'price', 'uses'=>'CourseController@ajaxprice'));
 Route::post("/courses/all",array('as'=>'alltut', 'uses'=>'CourseController@ajaxalltut'));
 
+    Route::post("/replies", array('as'=>'ajaxreplies', 'uses'=>'DiscussionController@ajaxreplies'));
+	 Route::post("/sendreply", array('as'=>'ajaxsendreply', 'uses'=>'DiscussionController@ajaxsendreply'));
+	 Route::post("/enrol/payment/{user}",array('as'=>'payment', 'uses'=>'CourseController@payment'))->middleware('auth');
+	 Route::get("/profile/courses",array('as'=>'profilecourses', 'uses'=>'CourseController@profilecourses'));
 
+	 Route::get('/profile/notification',function(){
+	
+	return view('notify');
+})->name('notification');
+Route::post('/ajaxsearch',array("as"=>"ajaxsearch","uses"=>"CourseController@ajaxsearch"));
+Route::post("/towelcome",array('as'=>'redtowelcome', 'uses'=>'CourseController@redtowelcome'));
+Route::get("/tut/description",array('as'=>'describe', 'uses'=>'DiscussionController@describe'));
 
- Route::get('/admin', [
+Route::get('/admin', [
         'uses' => 'CourseController@getAdmin',
         'as' => 'admin',
         'middleware' => 'roles',

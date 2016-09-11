@@ -10,6 +10,12 @@ class Post extends Model
 
     public function comments()
     {
-    	return $this->hasMany('App\QuestionComment');
+    	return $this->hasMany('App\comment');
+		
     }
+	
+	public function likes(){
+		
+		return $this->hasMany("App\likes");
+	}
 }
