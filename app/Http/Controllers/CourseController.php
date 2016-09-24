@@ -379,13 +379,13 @@ public function handleUpload($id, Request $request)
 	
 	if($request->hasFile('file'))
 	{
-		$user = Auth::user(); 
+		$user = Auth::user();
 		$file = $request->file('file');
 		$allowedFileTypes = config('app.allowedFileTypes');
 		$maxFileSize = config('app.maxFileSize');
 		$fileName = $file->getClientOriginalName();
 		$rules = [
-			'file' => 'required|mimes:'.$allowedFileTypes.'|max:'.$maxFileSize 
+			'file' => 'required|mimes:'.$allowedFileTypes.'|max:'.$maxFileSize
 			];
 		$this->validate($request, $rules);
 		$destinationPath = config('app.fileDestinationPath').'/'.$fileName;
@@ -407,7 +407,6 @@ public function handleUpload($id, Request $request)
 	return redirect()->back();
 }
 
-<<<<<<< HEAD
 public function handleUploadedFiles($name)
 {
 	
@@ -418,11 +417,6 @@ public function handleUploadedFiles($name)
     'Content-Disposition' => 'inline; filename="'.$name.'"'
 ]);
 }
-
-
-}
-=======
->>>>>>> 54ab75c90f9921e1264cc0e516f101707e726c35
 
 
 }
